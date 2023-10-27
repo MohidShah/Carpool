@@ -75,7 +75,7 @@ class Login extends StatelessWidget {
                   smallTitle(
                       context: context, text: "Signup as Driver", type: 'D'),
                   smallTitle(
-                      context: context, text: "Signup as Ride", type: 'R'),
+                      context: context, text: "Signup as Rider", type: 'R'),
                 ],
               ),
             ),
