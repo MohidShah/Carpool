@@ -1,0 +1,70 @@
+Method: post 
+url: http://localhost:3000/api/driver/register
+
+payload: {
+  "firstName": "mohid1",
+  "lastName": "mohid1",
+  "email": "mohid1@example.com",
+  "password": "mohid",
+  "confirmPassword": "mohid",
+  "phoneNumber": "1234567890",
+  "cnic": "12345-1234567-8",
+  "dateOfBirth": "1990-01-01",
+  "gender": "Male",
+  "role": "driver",
+  "drivingLicenseImage": "URL or base64 encoded image",
+  "profile": "profile_id_here" // Replace with the actual profile ID
+}
+
+Method: post 
+url: http://localhost:3000/api/passenger/register
+
+payload: {
+  "firstName": "zunair2",
+  "lastName": "zunair2",
+  "email": "zunair2@example.com",
+  "password": "zunair",
+  "confirmPassword": "zunair",
+  "phoneNumber": "123-456-7890",
+  "cnic": "12345-6789012-3",
+  "dateOfBirth": "1990-05-15",
+  "role":"passenger",
+  "gender": "Male"
+  
+}
+
+Method: post 
+url: http://localhost:3000/api/users/login
+
+payload: {
+  "email": "zunair2@example.com",
+  "password": "zunair",
+  "role": "passenger"
+}
+
+Method: Get
+url: http://localhost:3000/api/profiles/6532f2832d8e3041cf416882
+
+
+Method: post 
+url: http://localhost:3000/api/chat/create
+
+payload: {
+  "roomId": "3",
+  "user1Id": "6532f2832d8e3041cf416882",
+  "user2Id": "6532f2ab8a7de74b64aea30d",
+  "messages": [
+    {
+      "messageId": "1",
+      "senderId": "6532f2832d8e3041cf416882",
+      "content": "iam goo3",
+      "timestamp": "2023-10-25T14:30:00Z"
+    },
+    {
+      "messageId": "1",
+      "senderId": "6532f2832d8e3041cf416882",
+      "content": "ok bye3!",
+      "timestamp": "2023-10-25T14:31:00Z"
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .login-container {
+      margin-top: 5%;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container login-container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-sm-8">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="text-center">Carpool Login</h3>
+        </div>
+        <div class="card-body">
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="username">Username:</label>
+              <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <div class="input-group">
+                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility()">
+                    <i id="eyeIcon" class="fa fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-block" onclick="validateLogin()">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<!-- Font Awesome for eye icon -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<!-- Custom JS -->
+<script>
+  function togglePasswordVisibility() {
+    var passwordInput = document.getElementById('password');
+    var eyeIcon = document.getElementById('eyeIcon');
+
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      eyeIcon.classList.remove('fa-eye');
+      eyeIcon.classList.add('fa-eye-slash');
+    } else {
+      passwordInput.type = 'password';
+      eyeIcon.classList.remove('fa-eye-slash');
+      eyeIcon.classList.add('fa-eye');
+    }
+  }
+  async function validateLogin() {
+  try {
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+
+    const url = "http://localhost:3000/api/users/login";
+    const payload = {
+      email: username,
+      password: password,
+      role: "passenger"
+    };
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // You can add other headers if needed
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      // Display an alert for incorrect credentials
+      alert('Invalid username or password');
+      return;
+    }
+
+    const data = await response.json();
+    localStorage.setItem('userData', JSON.stringify(data));
+    console.log(JSON.stringify(data));
+    window.location.href = 'index.html';
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+
+// Assuming username and password are defined somewhere before calling postData
+
+
+
+
+ </script>
+
+</body>
+</html>
