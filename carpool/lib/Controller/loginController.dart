@@ -80,15 +80,19 @@ class LoginController extends GetxController {
     update();
   }
 
-  onClicklogin(userType) {
-    switch (userType) {
-      case 'Driver':
-        Get.toNamed('/DriverHome');
-        break;
+  onClicklogin() {
+    var userType = "";
+    print(loginemail.text);
+    print(loginpassword.text);
 
-      case 'passengers':
-        Get.toNamed('/Home');
-        break;
-    }
+    // switch (userType) {
+    //   case 'Driver':
+    //     Get.toNamed('/DriverHome');
+    //     break;
+
+    //   case 'passengers':
+    //     Get.toNamed('/Home');
+    //     break;
+    // }
   }
 }

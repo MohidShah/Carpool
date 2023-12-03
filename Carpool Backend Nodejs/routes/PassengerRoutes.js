@@ -40,4 +40,18 @@ router.get('/total', async (req, res) => {
       res.status(500).json({ error: 'Could not retrieve total passenger count' });
   }
 });
+
+router.get('/passengerprofiles', async (req, res) => {
+  try {
+    // Fetch driver profiles from the database
+    const passengerProfiles = await PassengerModel.find({ role: 'passenger' });
+
+    // Respond with the driver profiles
+    res.status(200).json({ passengerProfiles });
+  } catch (error) {
+    console.error('Error fetching passenger profiles:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;

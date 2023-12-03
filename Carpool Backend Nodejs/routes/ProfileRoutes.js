@@ -47,4 +47,8 @@ router.post('/change-status', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// Route to get all user profiles
+// Assuming ProfileModel has the structure similar to mongoose Model
+
 module.exports = router;

@@ -3,11 +3,12 @@
 import 'package:carpool/Controller/loginController.dart';
 import 'package:carpool/exportlinks.dart';
 
+TextEditingController loginpassword = TextEditingController();
 pTextField(
     {context, PlaceholderText, secureText, makeSecure, controller, passField}) {
   return TextField(
     obscureText: secureText,
-    controller: controller,
+    controller: loginpassword,
     decoration: InputDecoration(
         hintText: PlaceholderText,
         suffixIcon: GetBuilder(
@@ -32,12 +33,15 @@ pTextField(
   );
 }
 
+TextEditingController loginemail = TextEditingController();
+
 eTextField({context, PlaceholderText}) {
   return GetBuilder<LoginController>(
     id: const {'email'},
     init: LoginController(),
     initState: (state) => LoginController,
     builder: (controller) => TextField(
+      controller: loginemail,
       decoration: InputDecoration(
           hintText: PlaceholderText,
           fillColor: myColors().textfieldFilled,

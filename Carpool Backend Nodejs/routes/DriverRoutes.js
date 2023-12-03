@@ -38,4 +38,18 @@ router.get('/total', async (req, res) => {
         res.status(500).json({ error: 'Could not retrieve total driver count' });
     }
 });
+
+router.get('/driverprofiles', async (req, res) => {
+    try {
+      // Fetch driver profiles from the database
+      const driverProfiles = await SignupDriverModel.find({ role: 'driver' });
+  
+      // Respond with the driver profiles
+      res.status(200).json({ driverProfiles });
+    } catch (error) {
+      console.error('Error fetching driver profiles:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
 module.exports = router;

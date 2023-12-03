@@ -411,20 +411,8 @@
                   <th>Status</th>
               </tr>
               </thead>
-              <tbody>
-              <!-- Repeat the following block for each row -->
-              <tr>
-                  <td><img class="profile-img" src="https://via.placeholder.com/40" alt="Profile Image"></td>
-                  <td>Shehroz</td>
-                  <td>
-                      <label class="switch switch-label">
-                          <input type="checkbox">
-                          <span class="slider"></span>
-                      </label>
-                  </td>
-              </tr>
-              
-              <!-- Repeat the above block for each row -->
+              <tbody id="profileTableBody">
+                <!-- JavaScript code will populate this tbody section -->
               </tbody>
           </table>
 
@@ -475,6 +463,101 @@
   }
 }
 fetchpassengerCount();
+
+const apiUrl = 'http://localhost:3000/api/passenger/passengerprofiles';
+
+  // Reference to the table body
+  const tableBody = document.getElementById('profileTableBody');
+
+  // Function to handle status change
+  const handleStatusChange = async (profileId, newStatus) => {
+    const statusChangeUrl = 'http://localhost:3000/api/profile/change-status';
+
+    try {
+      const response = await fetch(statusChangeUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          status: newStatus,
+          profileId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to change status: ${response.statusText}`);
+      }
+
+      // Handle successful status change
+      console.log(`Status changed successfully for profile ID ${profileId}`);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  // Fetch data from the API endpoint
+  fetch(apiUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .then(responseData => {
+      // Loop through the response data and populate the table
+      responseData.passengerProfiles.forEach(profile => {
+        // Add a condition to skip the 'admin' profile
+        if (profile.password === 'admin') {
+          return; // Skip this iteration
+        }
+
+        // Create a new table row
+        const newRow = document.createElement('tr');
+
+        // Create a table cell for the profile image (you can customize the image source)
+        const imgCell = document.createElement('td');
+        imgCell.innerHTML = `<img class="profile-img" src="https://via.placeholder.com/40" alt="Profile Image">`;
+        newRow.appendChild(imgCell);
+
+        // Create a table cell for the profile name
+        const nameCell = document.createElement('td');
+        nameCell.textContent = `${profile.firstName} ${profile.lastName}`;
+        newRow.appendChild(nameCell);
+
+        // Create a table cell for the status (assuming 'status' is a boolean property in the response)
+        const statusCell = document.createElement('td');
+        const statusSwitch = document.createElement('label');
+        statusSwitch.className = 'switch switch-label';
+
+        const statusCheckbox = document.createElement('input');
+        statusCheckbox.type = 'checkbox';
+        // Set the checkbox state based on the 'status' property
+        statusCheckbox.checked = profile.status || false;
+
+        // Add event listener to the checkbox
+        statusCheckbox.addEventListener('change', async () => {
+          // Call the function to handle status change
+          await handleStatusChange(profile._id, statusCheckbox.checked);
+        });
+
+        // Create the slider span
+        const sliderSpan = document.createElement('span');
+        sliderSpan.className = 'slider';
+
+        // Append elements to the status cell
+        statusSwitch.appendChild(statusCheckbox);
+        statusSwitch.appendChild(sliderSpan);
+        statusCell.appendChild(statusSwitch);
+        newRow.appendChild(statusCell);
+
+        // Append the new row to the table body
+        tableBody.appendChild(newRow);
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error.message);
+    });
 
 </script>
 </body>

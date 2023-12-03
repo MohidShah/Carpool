@@ -60,7 +60,7 @@ class Login extends StatelessWidget {
                 width: MySizes(context).screenWidth * 0.4,
                 child: Cbutton(
                     // ignore: avoid_print
-                    onPressed: () => controller.onClicklogin("passengers"),
+                    onPressed: () => controller.onClicklogin(),
                     text: "LOGIN",
                     context: context)),
             SizedBox(
