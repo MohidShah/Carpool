@@ -99,7 +99,10 @@ class Profile extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          cTitle(text: "Mohid", context: context, size: 22.0),
+                          cTitle(
+                              text: "${LoginController().loginRes[0]}",
+                              context: context,
+                              size: 22.0),
                           IconButton(
                             onPressed: () => Get.toNamed('/EditProfile'),
                             icon: Icon(Icons.edit_square, size: 20),
@@ -115,9 +118,7 @@ class Profile extends StatelessWidget {
                         children: [
                           Icon(Icons.location_on, size: 15),
                           cTitle(
-                              text: "Punjab, Pakistan",
-                              context: context,
-                              size: 10.0),
+                              text: "Pakistan", context: context, size: 10.0),
                         ],
                       ),
                     )
@@ -143,7 +144,7 @@ class Profile extends StatelessWidget {
                           height: 15,
                         ),
                         Text(
-                          '20',
+                          '0',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -162,7 +163,7 @@ class Profile extends StatelessWidget {
                           height: 15,
                         ),
                         Text(
-                          '200',
+                          '0',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -181,7 +182,7 @@ class Profile extends StatelessWidget {
                           height: 15,
                         ),
                         Text(
-                          '80',
+                          '0',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),

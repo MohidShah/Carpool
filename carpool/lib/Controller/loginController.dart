@@ -10,6 +10,7 @@ import 'package:get/get_connect/http/src/response/response.dart';
 class LoginController extends GetxController {
   var secureText = true;
   var secureText2 = true;
+  var loginRes = [];
 
   //fields controller
   TextEditingController FirstName = TextEditingController();
@@ -94,7 +95,9 @@ class LoginController extends GetxController {
   Future<Map<String, dynamic>> loginUser(
       String email, String password, String role) async {
     print("loginuserfun");
-    final String apiUrl = 'http://localhost:3000/api/users/login';
+    var clientip = "192.168.72.1";
+    var myip = "223.123.114.201";
+    final String apiUrl = 'http://$myip:3000/api/users/login';
 
     // Create the payload
     Map<String, dynamic> payload = {
@@ -121,15 +124,16 @@ class LoginController extends GetxController {
         // Parse the JSON response
         Map<String, dynamic> data = jsonDecode(response.body);
         print("data ${data}");
-        // switch (userType) {
-        //   case 'Driver':
-        //     Get.toNamed('/DriverHome');
-        //     break;
+        loginRes.add(data);
+        switch (data['user'].role) {
+          case 'Driver':
+            Get.toNamed('/DriverHome');
+            break;
 
-        //   case 'passengers':
-        //     Get.toNamed('/Home');
-        //     break;
-        // }
+          case 'passengers':
+            Get.toNamed('/Home');
+            break;
+        }
         return data;
       } else {
         // If the request was not successful, throw an exception
