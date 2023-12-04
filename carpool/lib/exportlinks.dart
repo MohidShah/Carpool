@@ -32,3 +32,5 @@ export 'CustomWidgets/carousel.dart';
 export 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 export '../CustomWidgets/genderbtn.dart';
 export 'package:image_picker/image_picker.dart';
+export 'package:flutter_spinkit/flutter_spinkit.dart';
+export 'package:fluttertoast/fluttertoast.dart';

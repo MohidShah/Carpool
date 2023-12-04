@@ -5,6 +5,7 @@ import 'package:carpool/exportlinks.dart';
 import '../CustomWidgets/carousel.dart';
 
 class HomeScreen extends StatelessWidget {
+  var data = Get.arguments;
   HomeScreen({super.key});
   final _advancedDrawerController = AdvancedDrawerController();
   @override
@@ -42,7 +43,7 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: myColors().bgColor,
-          title: const Text('Hello, Mohid'),
+          title: Text('Hello, ${data[0]['user']['firstName']}'),
           leading: IconButton(
             onPressed: _handleMenuButtonPressed,
             icon: ValueListenableBuilder<AdvancedDrawerValue>(
@@ -196,7 +197,7 @@ class HomeScreen extends StatelessWidget {
                 ListTile(
                   title: Text('Profile'),
                   onTap: () {
-                    Get.toNamed('/profile');
+                    Get.toNamed('/profile', arguments: [data]);
                     // Add the functionality for Option 1 here
                   },
                 ),

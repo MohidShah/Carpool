@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, camel_case_types
 
+import 'package:carpool/Controller/passengercontroller.dart';
 import 'package:carpool/exportlinks.dart';
 
 import '../CustomWidgets/genderbtn.dart';
@@ -119,7 +120,8 @@ class rideSignup extends StatelessWidget {
                 width: MySizes(context).screenWidth * 0.4,
                 child: Cbutton(
                     // ignore: avoid_print
-                    onPressed: () => print("hello world btn"),
+                    onPressed: () => PassengerController()
+                        .Signup(context, selectedGender.obs.toString()),
                     text: "Sign up",
                     context: context)),
             SizedBox(

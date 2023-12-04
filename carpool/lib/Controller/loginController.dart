@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:convert';
+import 'package:carpool/Controller/drivercontroller.dart';
 import 'package:http/http.dart' as http;
 import 'package:carpool/config/Constants.dart';
 import 'package:carpool/exportlinks.dart';
@@ -85,32 +86,31 @@ class LoginController extends GetxController {
     update();
   }
 
-  onClicklogin() {
+  onClicklogin(BuildContext context) {
     var userType = "";
     print(loginemail.text);
     print(loginpassword.text);
-    loginUser(loginemail.text, loginpassword.text, "passenger");
+    loginUser(loginemail.text, loginpassword.text, "passenger", context);
   }
 
   Future<Map<String, dynamic>> loginUser(
-      String email, String password, String role) async {
-    print("loginuserfun");
+      String email, String password, String role, BuildContext context) async {
+    // Display loading indicator
+    showLoader(context);
+
     var clientip = "192.168.72.1";
-    var myip = "223.123.114.201";
+
     final String apiUrl = 'http://$myip:3000/api/users/login';
 
-    // Create the payload
     Map<String, dynamic> payload = {
       'email': loginemail.text,
       'password': loginpassword.text,
       'role': role,
     };
 
-    // Encode the payload to JSON
     String payloadJson = jsonEncode(payload);
 
     try {
-      // Make the HTTP POST request
       final http.Response response = await http.post(
         Uri.parse(apiUrl),
         headers: <String, String>{
@@ -119,21 +119,26 @@ class LoginController extends GetxController {
         body: payloadJson,
       );
 
-      // Check if the request was successful (status code 200)
       if (response.statusCode == 200) {
-        // Parse the JSON response
         Map<String, dynamic> data = jsonDecode(response.body);
         print("data ${data['user']['role']}");
+        print("data ${data}");
+
         loginRes.add(data);
+        hideLoader(context);
+
         switch (data['user']['role']) {
           case 'Driver':
-            Get.toNamed('/DriverHome');
+            Get.toNamed('/DriverHome', arguments: [data]);
             break;
 
-          case 'passengers':
-            Get.toNamed('/Home');
+          case 'passenger':
+            Get.toNamed('/Home', arguments: [data]);
             break;
         }
+
+        // Close loading indicator
+
         return data;
       } else {
         // If the request was not successful, throw an exception
@@ -142,7 +147,44 @@ class LoginController extends GetxController {
     } catch (error) {
       // Handle any errors that occurred during the HTTP request
       print('Error: $error');
+
+      // Close loading indicator
+      hideLoader(context);
+
+      // Show error popup
+      showErrorPopup();
+
       throw error;
     }
+  }
+
+  void showLoader(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Center(
+          child: SpinKitCircle(
+            color: Colors.blue, // Customize the color
+            size: 50.0, // Customize the size
+          ),
+        );
+      },
+    );
+  }
+
+  void hideLoader(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
+  void showErrorPopup() {
+    Fluttertoast.showToast(
+      msg: "Failed to login. Please try again.",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 }

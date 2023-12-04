@@ -6,6 +6,7 @@ import 'package:carpool/exportlinks.dart';
 class Profile extends StatelessWidget {
   Profile({super.key});
   final controller = Get.put(ProfileController());
+  var data = Get.arguments;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -100,7 +101,7 @@ class Profile extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           cTitle(
-                              text: "${LoginController().loginRes[0]}",
+                              text: "${data[0][0]['user']['firstName']}",
                               context: context,
                               size: 22.0),
                           IconButton(

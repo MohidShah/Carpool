@@ -95,7 +95,7 @@ class preBookRideScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    height: MySizes(context).screenHeight * 0.4,
+                    height: MySizes(context).screenHeight * 0.5,
                     width: MySizes(context).screenWidth * 0.9,
                   ),
                 ),

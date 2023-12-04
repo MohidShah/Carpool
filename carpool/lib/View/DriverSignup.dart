@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, camel_case_types
 
+import 'package:carpool/Controller/drivercontroller.dart';
 import 'package:carpool/exportlinks.dart';
 
 class driverSignup extends StatelessWidget {
@@ -150,7 +151,7 @@ class driverSignup extends StatelessWidget {
                 width: MySizes(context).screenWidth * 0.4,
                 child: Cbutton(
                     // ignore: avoid_print
-                    onPressed: () => print("hello world btn"),
+                    onPressed: () => DriverController().Signup(context),
                     text: "Sign up",
                     context: context)),
             SizedBox(
