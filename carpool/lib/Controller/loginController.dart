@@ -123,9 +123,9 @@ class LoginController extends GetxController {
       if (response.statusCode == 200) {
         // Parse the JSON response
         Map<String, dynamic> data = jsonDecode(response.body);
-        print("data ${data}");
+        print("data ${data['user']['role']}");
         loginRes.add(data);
-        switch (data['user'].role) {
+        switch (data['user']['role']) {
           case 'Driver':
             Get.toNamed('/DriverHome');
             break;
