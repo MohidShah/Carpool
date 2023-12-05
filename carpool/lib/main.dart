@@ -65,7 +65,7 @@ void main() {
               transition: Transition.zoom),
           GetPage(
               name: '/BookRide',
-              page: () => preBookRideScreen(),
+              page: () => PreBookRideScreen(),
               transition: Transition.zoom),
           GetPage(
               name: '/BookedRide',
