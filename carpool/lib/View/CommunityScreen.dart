@@ -4,9 +4,16 @@ import 'package:flutter/material.dart';
 
 import '../exportlinks.dart';
 
-class CommunityScreen extends StatelessWidget {
+class CommunityScreen extends StatefulWidget {
   CommunityScreen({super.key});
+
+  @override
+  State<CommunityScreen> createState() => _CommunityScreenState();
+}
+
+class _CommunityScreenState extends State<CommunityScreen> {
   final _advancedDrawerController = AdvancedDrawerController();
+
   @override
   Widget build(BuildContext context) {
     return AdvancedDrawer(
@@ -42,6 +49,15 @@ class CommunityScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: myColors().bgColor,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    _showAlertDialog(context);
+                  });
+                },
+                icon: Icon(Icons.add))
+          ],
           title: const Text('Communities'),
           leading: IconButton(
             onPressed: _handleMenuButtonPressed,
@@ -194,4 +210,24 @@ class CommunityScreen extends StatelessWidget {
     // _advancedDrawerController.value = AdvancedDrawerValue.visible();
     _advancedDrawerController.showDrawer();
   }
+}
+
+void _showAlertDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Under Development"),
+        content: Text("This feature is currently under development."),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
 }

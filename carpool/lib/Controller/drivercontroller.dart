@@ -8,36 +8,14 @@ import 'package:carpool/exportlinks.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 
 var clientip = "192.168.72.1";
-var myip = "192.168.71.96";
+var myip = "192.168.64.96";
 
 class DriverController extends GetxController {
-  Future<Map<String, dynamic>> Signup(BuildContext context) async {
-    TextEditingController FirstName = TextEditingController();
-    TextEditingController LasttName = TextEditingController();
-    TextEditingController Email = TextEditingController();
-    TextEditingController Password = TextEditingController();
-    TextEditingController Confirmpassword = TextEditingController();
-    TextEditingController Phone = TextEditingController();
-    TextEditingController Dateofbirth =
-        MaskedTextController(mask: '00/00/0000');
-    TextEditingController cnic = MaskedTextController(mask: '00000-0000000-0');
+  Future<Map<String, dynamic>> Signup(
+      BuildContext context, selectedGender, payload) async {
     showLoader(context); // Display loading indicator
 
     final String apiUrl = 'http://$myip:3000/api/driver/register';
-
-    Map<String, dynamic> payload = {
-      "firstName": FirstName.text,
-      "lastName": LasttName.text,
-      "email": Email.text,
-      "password": Password.text,
-      "confirmPassword": Confirmpassword.text,
-      "phoneNumber": Phone.text,
-      "cnic": cnic.text,
-      "dateOfBirth": Dateofbirth.text,
-      "gender": "male",
-      "role": "driver",
-      "status": true,
-    };
 
     String payloadJson = jsonEncode(payload);
 
@@ -50,18 +28,18 @@ class DriverController extends GetxController {
         body: payloadJson,
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode <= 202) {
         Map<String, dynamic> data = jsonDecode(response.body);
         print("data ${data}");
         hideLoader(context); // Close loading indicator
 
         switch (data['user'].role) {
-          case 'Driver':
-            Get.toNamed('/DriverHome');
+          case 'driver':
+            Get.toNamed('/Login');
             break;
 
-          case 'passengers':
-            Get.toNamed('/Home');
+          case 'passenger':
+            Get.toNamed('/Login');
             break;
         }
         return data;

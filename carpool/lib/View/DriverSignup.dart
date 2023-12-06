@@ -3,9 +3,35 @@
 import 'package:carpool/Controller/drivercontroller.dart';
 import 'package:carpool/exportlinks.dart';
 
-class driverSignup extends StatelessWidget {
+class driverSignup extends StatefulWidget {
   driverSignup({super.key});
-  final RxString selectedGender = ''.obs;
+
+  @override
+  State<driverSignup> createState() => _driverSignupState();
+}
+
+class _driverSignupState extends State<driverSignup> {
+  String selectedGender = 'Male';
+  TextEditingController FirstName = TextEditingController();
+  TextEditingController LastName = TextEditingController();
+  TextEditingController Email = TextEditingController();
+  TextEditingController Password = TextEditingController();
+  TextEditingController Confirmpassword = TextEditingController();
+  TextEditingController Phone = TextEditingController();
+  TextEditingController Dateofbirth = MaskedTextController(mask: '00/00/0000');
+  TextEditingController cnic = MaskedTextController(mask: '00000-0000000-0');
+
+  late PickedFile? _pickedFile;
+
+  Future<void> _pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _pickedFile = pickedFile as PickedFile?;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,28 +41,24 @@ class driverSignup extends StatelessWidget {
         child: Column(
           children: [
             Lottie.asset('assets/animation/joinus.json'),
-            LoginTitle(context: context, text: "Become Driver"),
+            LoginTitle(context: context, text: "Pick Ride"),
             SizedBox(
               height: MySizes(context).screenHeight * 0.05,
             ),
             SizedBox(
               width: MySizes(context).screenWidth * 0.8,
               height: MySizes(context).screenHeight * 0.05,
-              child: myField(
-                  context: context,
-                  PlaceholderText: "First Name",
-                  fieldType: "FirstName"),
-            ),
-            SizedBox(
-              height: MySizes(context).screenHeight * 0.03,
-            ),
-            SizedBox(
-              width: MySizes(context).screenWidth * 0.8,
-              height: MySizes(context).screenHeight * 0.05,
-              child: myField(
-                  context: context,
-                  PlaceholderText: "Last Name",
-                  fieldType: "LastName"),
+              child: TextField(
+                controller: FirstName,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  hintText: "First Name",
+                  fillColor: myColors().textfieldFilled,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+              ),
             ),
             SizedBox(
               height: MySizes(context).screenHeight * 0.03,
@@ -44,53 +66,17 @@ class driverSignup extends StatelessWidget {
             SizedBox(
               width: MySizes(context).screenWidth * 0.8,
               height: MySizes(context).screenHeight * 0.05,
-              child: myField(
-                  context: context,
-                  PlaceholderText: "Email",
-                  fieldType: "Email"),
-            ),
-            SizedBox(
-              height: MySizes(context).screenHeight * 0.03,
-            ),
-            SizedBox(
-                width: MySizes(context).screenWidth * 0.8,
-                height: MySizes(context).screenHeight * 0.05,
-                child: GetBuilder(
-                  initState: (state) => LoginController(),
-                  init: LoginController(),
-                  builder: (controller) => pTextField(
-                      context: context,
-                      controller: controller.Password,
-                      PlaceholderText: "Password",
-                      passField: 1,
-                      secureText: controller.secureText),
-                )),
-            SizedBox(
-              height: MySizes(context).screenHeight * 0.03,
-            ),
-            SizedBox(
-                width: MySizes(context).screenWidth * 0.8,
-                height: MySizes(context).screenHeight * 0.05,
-                child: GetBuilder(
-                  initState: (state) => LoginController(),
-                  init: LoginController(),
-                  builder: (controller) => pTextField(
-                      context: context,
-                      controller: controller.Confirmpassword,
-                      PlaceholderText: "Confirm Password",
-                      passField: 2,
-                      secureText: controller.secureText2),
-                )),
-            SizedBox(
-              height: MySizes(context).screenHeight * 0.03,
-            ),
-            SizedBox(
-              width: MySizes(context).screenWidth * 0.8,
-              height: MySizes(context).screenHeight * 0.05,
-              child: myField(
-                  context: context,
-                  PlaceholderText: "Phone No",
-                  fieldType: "Phone"),
+              child: TextField(
+                controller: LastName,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  hintText: "Last Name",
+                  fillColor: myColors().textfieldFilled,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+              ),
             ),
             SizedBox(
               height: MySizes(context).screenHeight * 0.03,
@@ -98,8 +84,17 @@ class driverSignup extends StatelessWidget {
             SizedBox(
               width: MySizes(context).screenWidth * 0.8,
               height: MySizes(context).screenHeight * 0.05,
-              child: myField(
-                  context: context, PlaceholderText: "Cnic", fieldType: "Cnic"),
+              child: TextField(
+                controller: Email,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  hintText: "Email",
+                  fillColor: myColors().textfieldFilled,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+              ),
             ),
             SizedBox(
               height: MySizes(context).screenHeight * 0.03,
@@ -107,22 +102,111 @@ class driverSignup extends StatelessWidget {
             SizedBox(
               width: MySizes(context).screenWidth * 0.8,
               height: MySizes(context).screenHeight * 0.05,
-              child: myField(
-                  context: context,
-                  PlaceholderText: "DD/MM/YYYY",
-                  fieldType: "Dateofbirth"),
+              child: TextField(
+                controller: Password,
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: "Password",
+                  fillColor: myColors().textfieldFilled,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+              ),
             ),
             SizedBox(
               height: MySizes(context).screenHeight * 0.03,
             ),
-            styledRadioTile('Male', selectedGender, context),
+            SizedBox(
+              width: MySizes(context).screenWidth * 0.8,
+              height: MySizes(context).screenHeight * 0.05,
+              child: TextField(
+                controller: Confirmpassword,
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: "Confirm Password",
+                  fillColor: myColors().textfieldFilled,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+              ),
+            ),
             SizedBox(
               height: MySizes(context).screenHeight * 0.03,
             ),
-            styledRadioTile('Female', selectedGender, context),
+            SizedBox(
+              width: MySizes(context).screenWidth * 0.8,
+              height: MySizes(context).screenHeight * 0.05,
+              child: TextField(
+                controller: Phone,
+                keyboardType: TextInputType.phone,
+                decoration: InputDecoration(
+                  hintText: "Phone No",
+                  fillColor: myColors().textfieldFilled,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+              ),
+            ),
             SizedBox(
               height: MySizes(context).screenHeight * 0.03,
             ),
+            SizedBox(
+              width: MySizes(context).screenWidth * 0.8,
+              height: MySizes(context).screenHeight * 0.05,
+              child: TextField(
+                controller: cnic,
+                keyboardType: TextInputType.phone,
+                decoration: InputDecoration(
+                  hintText: "Cnic",
+                  fillColor: myColors().textfieldFilled,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: MySizes(context).screenHeight * 0.03,
+            ),
+            SizedBox(
+              width: MySizes(context).screenWidth * 0.8,
+              height: MySizes(context).screenHeight * 0.05,
+              child: TextField(
+                controller: Dateofbirth,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  hintText: "DD/MM/YYYY",
+                  fillColor: myColors().textfieldFilled,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: MySizes(context).screenHeight * 0.03),
+            StyledRadioTile(
+              gender: 'Male',
+              selectedGender: selectedGender,
+              onChanged: (value) {
+                setState(() {
+                  selectedGender = value;
+                });
+              },
+            ),
+            SizedBox(height: MySizes(context).screenHeight * 0.03),
+            StyledRadioTile(
+              gender: 'Female',
+              selectedGender: selectedGender,
+              onChanged: (value) {
+                setState(() {
+                  selectedGender = value;
+                });
+              },
+            ),
+            SizedBox(height: MySizes(context).screenHeight * 0.03),
             Container(
               width: MySizes(context).screenWidth * 0.7,
               height: MySizes(context).screenHeight * 0.05,
@@ -133,12 +217,17 @@ class driverSignup extends StatelessWidget {
                       text: "Upload Driving License",
                       context: context,
                       size: 20.0),
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: myColors().bgGreen,
-                    child: Icon(
-                      Icons.upload_file,
-                      color: myColors().whiteTitle,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {});
+                    },
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: myColors().bgGreen,
+                      child: Icon(
+                        Icons.upload_file,
+                        color: myColors().whiteTitle,
+                      ),
                     ),
                   )
                 ],
@@ -151,7 +240,25 @@ class driverSignup extends StatelessWidget {
                 width: MySizes(context).screenWidth * 0.4,
                 child: Cbutton(
                     // ignore: avoid_print
-                    onPressed: () => DriverController().Signup(context),
+                    onPressed: () {
+                      setState(() {
+                        Map<String, dynamic> payload = {
+                          "firstName": FirstName.text,
+                          "lastName": LastName.text,
+                          "email": Email.text,
+                          "password": Password.text,
+                          "confirmPassword": Confirmpassword.text,
+                          "phoneNumber": Phone.text,
+                          "cnic": cnic.text,
+                          "dateOfBirth": Dateofbirth.text,
+                          "gender": "male",
+                          "role": "driver",
+                          "status": true
+                        };
+                        DriverController()
+                            .Signup(context, selectedGender, payload);
+                      });
+                    },
                     text: "Sign up",
                     context: context)),
             SizedBox(

@@ -1,6 +1,7 @@
 import 'package:carpool/View/FriendsList.dart';
 import 'package:carpool/View/GroupChatroomScreen.dart';
 import 'package:carpool/View/GroupMembersListScreen.dart';
+import 'package:carpool/View/createride.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -78,6 +79,10 @@ void main() {
           GetPage(
               name: '/DriverHome',
               page: () => const DriverPickupScreen(),
+              transition: Transition.zoom),
+          GetPage(
+              name: '/CreateRide',
+              page: () => const CreateRide(),
               transition: Transition.zoom),
           GetPage(
               name: '/CommunityScreen',

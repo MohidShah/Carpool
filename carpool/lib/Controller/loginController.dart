@@ -12,6 +12,7 @@ class LoginController extends GetxController {
   var secureText = true;
   var secureText2 = true;
   var loginRes = [];
+  var typeselect;
 
   //fields controller
   TextEditingController FirstName = TextEditingController();
@@ -90,7 +91,8 @@ class LoginController extends GetxController {
     var userType = "";
     print(loginemail.text);
     print(loginpassword.text);
-    loginUser(loginemail.text, loginpassword.text, "passenger", context);
+    showAlertDialog(context);
+    loginUser(loginemail.text, loginpassword.text, typeselect, context);
   }
 
   Future<Map<String, dynamic>> loginUser(
@@ -105,7 +107,7 @@ class LoginController extends GetxController {
     Map<String, dynamic> payload = {
       'email': loginemail.text,
       'password': loginpassword.text,
-      'role': role,
+      'role': typeselect,
     };
 
     String payloadJson = jsonEncode(payload);
@@ -128,8 +130,8 @@ class LoginController extends GetxController {
         hideLoader(context);
 
         switch (data['user']['role']) {
-          case 'Driver':
-            Get.toNamed('/DriverHome', arguments: [data]);
+          case 'driver':
+            Get.toNamed('/CreateRide');
             break;
 
           case 'passenger':
@@ -185,6 +187,36 @@ class LoginController extends GetxController {
       backgroundColor: Colors.red,
       textColor: Colors.white,
       fontSize: 16.0,
+    );
+  }
+
+  void showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Are You Sure"),
+          content: Column(
+            children: [
+              Text("Driver"),
+              IconButton(
+                  onPressed: () {
+                    typeselect = "driver";
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                  icon: Icon(Icons.drive_file_move_rounded)),
+              SizedBox(height: 20),
+              Text("Passenger"),
+              IconButton(
+                  onPressed: () {
+                    typeselect = "passenger";
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                  icon: Icon(Icons.drive_file_move_rounded)),
+            ],
+          ),
+        );
+      },
     );
   }
 }

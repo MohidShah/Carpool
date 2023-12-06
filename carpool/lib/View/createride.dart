@@ -1,14 +1,40 @@
-// ignore_for_file: file_names, camel_case_types
-
-import 'package:carpool/Controller/PreBookRideScreenController.dart';
-import 'package:carpool/exportlinks.dart';
+import 'package:carpool/CustomWidgets/mapwidget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:carpool/exportlinks.dart';
 
-import '../CustomWidgets/mapwidget.dart';
+class CreateRide extends StatefulWidget {
+  const CreateRide({Key? key}) : super(key: key);
 
-class PreBookRideScreen extends StatelessWidget {
-  PreBookRideScreen({super.key});
-  final controller = Get.put(PreBookRideController());
+  @override
+  State<CreateRide> createState() => _CreateRideState();
+}
+
+class _CreateRideState extends State<CreateRide> {
+  GooglePlaceAutoCompleteTextField? textField;
+  TextEditingController destinationController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    textField = GooglePlaceAutoCompleteTextField(
+      googleAPIKey: "YOUR_GOOGLE_MAPS_API_KEY",
+      textEditingController: destinationController,
+      inputDecoration: InputDecoration(
+        hintText: "Search your Destination",
+        border: InputBorder.none,
+        enabledBorder: InputBorder.none,
+      ),
+      debounceTime: 800,
+      itemClick: (prediction) {
+        setState(() {
+          // Update the destination text when a place is picked
+          destinationController.text = prediction.description!;
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +46,7 @@ class PreBookRideScreen extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(6.0),
-                    child: controller.textField,
+                    child: textField,
                   ),
                   SizedBox(
                     height: MySizes(context).screenHeight * 0.8,
@@ -74,10 +100,13 @@ class PreBookRideScreen extends StatelessWidget {
                             ],
                           ),
                           cTitle(
-                              text: "Charges: 300PKR",
+                              text: destinationController.text,
                               context: context,
-                              size: 20.0),
-                          Cbutton(text: "Book Now", context: context),
+                              size: 20.0), // Display selected destination
+                          Cbutton(
+                              text: "Create Ride",
+                              context: context,
+                              onPressed: () => showAlertDialog(context)),
                         ],
                       ),
                     ),
@@ -106,4 +135,24 @@ class PreBookRideScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void showAlertDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Pick Ride"),
+        content: Text("your Ride Is Created"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
 }

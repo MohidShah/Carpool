@@ -4,10 +4,26 @@ import 'package:carpool/exportlinks.dart';
 
 import '../CustomWidgets/carousel.dart';
 
-class HomeScreen extends StatelessWidget {
-  var data = Get.arguments;
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  var data;
+
   final _advancedDrawerController = AdvancedDrawerController();
+  @override
+  void initState() {
+    if (data == null) {
+      data = Get.arguments;
+    }
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AdvancedDrawer(
